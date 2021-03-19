@@ -1,0 +1,48 @@
+---
+version: 1
+disable_existing_loggers: False
+
+formatters:
+  standard:
+    format: "%(asctime)s %(levelname)s: %(message)s"
+    datefmt: "%Y-%m-%d %H:%M:%S"
+
+  console:
+    class: 'colorlog.ColoredFormatter'
+    format: "%(log_color)s%(asctime)s - %(levelname)-8s | %(message)s"
+    datefmt: "%Y-%m-%d %H:%M:%S"
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    formatter: console
+    stream: ext://sys.stdout
+
+  file_handler:
+    class: logging.handlers.TimedRotatingFileHandler
+    formatter: standard
+    level: INFO
+    filename: ./logs/application.log
+    backupCount: 30
+    encoding: utf8
+    when: midnight
+
+  smtp_handler:
+    class: logging.handlers.SMTPHandler
+    formatter: standard
+    level: ERROR
+    mailhost:
+      - smtp.gmail.com
+      - 587
+    fromaddr: user@gmail.com
+    toaddrs: other.user@gmail.com
+    subject: Something went wrong!
+    credentials:
+      - user@gmail.com
+      - Pa$$w0rd!
+    secure:
+      -
+
+root:
+  level: DEBUG
+  handlers: [console, file_handler, smtp_handler]

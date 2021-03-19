@@ -140,7 +140,7 @@ Thumbs.db
 # Product-specific
 /config.yaml
 /data
-/logging.yaml
+# /logging.yaml
 /logs
 /temp*
 /tmp*
